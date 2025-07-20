@@ -381,9 +381,3 @@ Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](L
 
 </div>
 
-
-
-<img width="1417" height="765" alt="image" src="https://github.com/user-attachments/assets/f76bde10-83fb-4e30-8012-c00a4a6b5fcd" />
-<img width="1417" height="761" alt="image" src="https://github.com/user-attachments/assets/a0670e5a-25f4-4ef0-9d6d-99d534c003c0" />
-<img width="1422" height="761" alt="image" src="https://github.com/user-attachments/assets/aabf078c-da63-485e-93f7-59fc15092a00" />
-<img width="1421" height="771" alt="image" src="https://github.com/user-attachments/assets/230d2744-91c4-4dcc-9ffc-988bf22b8ea7" />

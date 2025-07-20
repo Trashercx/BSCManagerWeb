@@ -1,0 +1,10 @@
+<!-- Navbar (oculto en login) -->
+<app-navbar *ngIf="!esLogin()" />
+
+<!-- Spinner global -->
+<div *ngIf="loading$ | async" class="fixed inset-0 bg-white bg-opacity-70 z-50 flex items-center justify-center">
+  <div class="w-16 h-16 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+</div>
+
+<!-- Contenido principal -->
+<router-outlet />

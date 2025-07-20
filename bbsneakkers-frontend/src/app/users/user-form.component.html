@@ -1,0 +1,20 @@
+<div class="max-w-md mx-auto mt-10 p-6 border rounded shadow">
+  <h2 class="text-xl font-bold mb-4">Crear nuevo usuario</h2>
+
+  <form (ngSubmit)="registrar()">
+    <input [(ngModel)]="name" name="name" placeholder="Nombre" class="w-full mb-3 p-2 border rounded" required />
+
+    <input [(ngModel)]="email" name="email" placeholder="Correo" class="w-full mb-3 p-2 border rounded" required />
+
+    <input [(ngModel)]="password" name="password" type="password" placeholder="Contraseña" class="w-full mb-3 p-2 border rounded" required />
+
+    <select [(ngModel)]="role_id" name="role_id" class="w-full mb-3 p-2 border rounded">
+      <option *ngFor="let rol of roles" [value]="rol.id">{{ rol.name }}</option>
+    </select>
+
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Registrar</button>
+  </form>
+
+  <p class="mt-3 text-green-600" *ngIf="mensaje">{{ mensaje }}</p>
+  <p class="mt-3 text-red-600" *ngIf="error">{{ error }}</p>
+</div>

@@ -1,0 +1,44 @@
+<div class="max-w-5xl mx-auto p-6">
+  <h2 class="text-2xl font-bold text-blue-700 mb-4">Detalle del KPI</h2>
+
+  <div *ngIf="kpi" class="mb-6 p-4 bg-white shadow rounded-lg border border-gray-200">
+    <h3 class="text-xl font-semibold mb-2">{{ kpi.nombre }}</h3>
+    <p class="text-sm text-gray-600">Meta: {{ kpi.meta }} {{ kpi.unidad_medida }}</p>
+  </div>
+
+  <div *ngIf="chartData.length > 0" class="mb-8">
+    <ngx-charts-line-chart
+      [view]="view"
+      [results]="chartData"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="true"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxisLabel]="'Fecha'"
+      [yAxisLabel]="'Valor'">
+    </ngx-charts-line-chart>
+  </div>
+
+  <div *ngIf="historial.length > 0" class="overflow-x-auto">
+    <h4 class="text-lg font-semibold mb-2">Histórico de Seguimientos</h4>
+    <table class="w-full border text-sm">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="p-2 border">Fecha</th>
+          <th class="p-2 border">Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let h of historial">
+          <td class="p-2 border">{{ formatearFecha(h.fecha) }}</td>
+          <td class="p-2 border">{{ h.valor }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="historial.length === 0" class="text-center text-gray-500 mt-10">
+    <p>No hay seguimientos registrados aún para este KPI.</p>
+  </div>
+</div>

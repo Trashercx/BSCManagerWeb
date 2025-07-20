@@ -1,0 +1,121 @@
+<!-- NAVBAR PRINCIPAL -->
+<nav class="bg-white border-b border-gray-200 shadow-sm px-4 py-3 dark:bg-gray-800">
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
+    <!-- Logo mejorado -->
+    <a routerLink="/" class="flex items-center space-x-3 group">
+      <div class="relative">
+        <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">BSC Manager</span>
+        <span class="text-xs text-gray-500 dark:text-gray-400">Sistema de Gestión</span>
+      </div>
+    </a>
+
+    <div class="flex items-center space-x-4">
+      <div *ngIf="user" class="relative group">
+        <button class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+          <div class="flex items-center space-x-2">
+            <div class="text-right hidden sm:block">
+              <p class="text-sm font-medium text-gray-900 dark:text-white">{{ user?.name }}</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">{{ user.role?.name || 'Rol desconocido' }}</p>
+            </div>
+            <div class="relative">
+              <img class="w-10 h-10 rounded-full ring-2 ring-gray-200 dark:ring-gray-600 hover:ring-blue-300 dark:hover:ring-blue-400 transition-colors duration-200" 
+                   src="https://ui-avatars.com/api/?name={{user.name}}&background=6366f1&color=white" />
+              <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></div>
+            </div>
+          </div>
+          <svg class="w-4 h-4 text-gray-400 group-hover:text-gray-600 dark:text-gray-300 dark:group-hover:text-gray-100 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        
+        <!-- Área invisible que conecta el avatar con el menú - EXTENDIDA -->
+        <div class="absolute right-0 top-0 w-full h-full invisible group-hover:visible"></div>
+        
+        <!-- Puente invisible entre botón y menú -->
+        <div class="absolute right-0 top-full w-full h-2 invisible group-hover:visible"></div>
+        
+        <!-- Menú desplegable -->
+        <div class="absolute hidden group-hover:block right-0 top-full mt-2 w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg z-50">
+          <div class="p-4 border-b border-gray-100 dark:border-gray-700">
+            <div class="flex items-center space-x-3">
+              <img class="w-12 h-12 rounded-full" src="https://ui-avatars.com/api/?name={{user.name}}&background=6366f1&color=white" />
+              <div>
+                <p class="font-semibold text-gray-900 dark:text-white">{{ user?.name }}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ user.role?.name || 'Rol desconocido' }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="py-2">
+            <a routerLink="/bsc" class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+              <svg class="w-4 h-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+               Mis BSCs
+            </a>
+            <a *ngIf="user.role?.name === 'admin'" routerLink="/t" class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+              <svg class="w-4 h-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+              </svg>
+               Usuarios
+            </a>
+            <button (click)="logout()" class="flex items-center w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-200">
+              <svg class="w-4 h-4 mr-3 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+              </svg>
+               Cerrar sesión
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MENÚ DE PESTAÑAS POR ROL -->
+<div *ngIf="user" class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+  <div class="max-w-screen-xl mx-auto px-4">
+    <ul class="flex space-x-8 py-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+
+      <li *ngIf="esAdmin() || esEstrategico()">
+        <a routerLink="/bsc" 
+           routerLinkActive="text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400" 
+           class="flex items-center space-x-2 hover:text-blue-600 dark:hover:text-blue-400 border-b-2 border-transparent hover:border-blue-300 dark:hover:border-blue-500 py-2 px-1 transition-colors duration-200">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+          <span>BSCs</span>
+        </a>
+      </li>
+
+      <li *ngIf="esAdmin()">
+        <a routerLink="/usuarios" 
+           routerLinkActive="text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400" 
+           class="flex items-center space-x-2 hover:text-blue-600 dark:hover:text-blue-400 border-b-2 border-transparent hover:border-blue-300 dark:hover:border-blue-500 py-2 px-1 transition-colors duration-200">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+          </svg>
+          <span> Usuarios</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/seguimiento" 
+           routerLinkActive="text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400" 
+           class="flex items-center space-x-2 hover:text-blue-600 dark:hover:text-blue-400 border-b-2 border-transparent hover:border-blue-300 dark:hover:border-blue-500 py-2 px-1 transition-colors duration-200">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+          </svg>
+          <span> Seguimiento</span>
+        </a>
+      </li>
+
+    </ul>
+  </div>
+</div>

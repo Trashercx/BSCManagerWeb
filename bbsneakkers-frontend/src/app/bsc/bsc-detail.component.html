@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSC Detail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Header con gradiente -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                {{ bsc?.nombre }}
+            </h1>
+            <div class="space-y-1">
+                <p class="text-gray-600"><strong>Unidad:</strong> {{ bsc?.unidad_negocio }}</p>
+                <p class="text-gray-600"><strong>Misión:</strong> {{ bsc?.mision }}</p>
+                <p class="text-gray-600"><strong>Visión:</strong> {{ bsc?.vision }}</p>
+            </div>
+        </div>
+
+        <!-- Sección principal -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+            <!-- Botones de exportación -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Balanced Scorecard</h2>
+                    <p class="text-gray-500">Gestiona perspectivas, objetivos e indicadores</p>
+                </div>
+                
+                <div class="flex gap-3">
+                    <button (click)="exportar('excel')" 
+                            class="group relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-semibold text-white transition-all duration-300 ease-in-out rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-4 focus:ring-green-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-green-600 to-emerald-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                        <svg class="relative z-10 w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <span class="relative z-10">Exportar a Excel</span>
+                    </button>
+                    
+                    <button (click)="exportar('pdf')" 
+                            class="group relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-semibold text-white transition-all duration-300 ease-in-out rounded-xl bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 focus:outline-none focus:ring-4 focus:ring-red-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-red-600 to-pink-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                        <svg class="relative z-10 w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                        <span class="relative z-10">Exportar a PDF</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Perspectivas -->
+            <div *ngIf="bsc?.perspectivas?.length" class="space-y-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">Perspectivas Estratégicas</h3>
+                
+                <div *ngFor="let p of bsc.perspectivas" class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100 shadow-sm hover:shadow-md transition-all duration-200">
+                    <!-- Título de perspectiva -->
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-lg mr-4">
+                            📌
+                        </div>
+                        <h4 class="text-2xl font-bold text-blue-700">{{ p.nombre }}</h4>
+                    </div>
+
+                    <!-- Lista de objetivos mejorada -->
+                    <div class="bg-white rounded-xl p-6 mb-6 shadow-sm">
+                        <h5 class="text-lg font-semibold text-gray-800 mb-4">Objetivos Estratégicos</h5>
+                        
+                        <div *ngIf="p.objetivos?.length" class="space-y-3 mb-6">
+                            <div *ngFor="let obj of p.objetivos" class="flex justify-between items-center p-4 bg-gray-50 rounded-lg border border-gray-100 hover:bg-gray-100 transition-colors duration-200">
+                                <span class="text-gray-800 font-medium">{{ obj.nombre }}</span>
+                                <div class="flex items-center space-x-2">
+                                    <button class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-yellow-700 bg-yellow-100 hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-all duration-200"
+                                            (click)="editarObjetivo(p.id, obj)">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                        </svg>
+                                        Editar
+                                    </button>
+                                    
+                                    <button class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200"
+                                            (click)="abrirModalEliminarObjetivo(obj)">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                        Eliminar
+                                    </button>
+
+                                    <button (click)="abrirModal(obj)" 
+                                            class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                        </svg>
+                                        {{ obj.kpis?.length ? 'Editar KPI' : 'Agregar KPI' }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Formulario para agregar objetivo -->
+                        <form (ngSubmit)="agregarObjetivo(p.id)" class="flex space-x-3">
+                            <div class="flex-1">
+                                <input type="text" 
+                                       [(ngModel)]="objetivosPorPerspectiva[p.id]" 
+                                       [attr.list]="'sugerencias_'+p.id"
+                                       name="objetivo_{{p.id}}" 
+                                       placeholder="Nuevo objetivo estratégico..." 
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200" 
+                                       required />
+
+                                <datalist [id]="'sugerencias_'+p.id">
+                                    <option *ngFor="let sug of sugerenciasObjetivos" [value]="sug"></option>
+                                </datalist>
+                            </div>
+
+                            <button class="px-6 py-3 text-white bg-gradient-to-r from-blue-500 to-purple-600 border border-transparent rounded-lg hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-md hover:shadow-lg">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mensaje de error -->
+            <div *ngIf="error" class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <p class="text-red-600 font-medium">{{ error }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal KPI mejorado -->
+    <div *ngIf="modalObjetivo" class="fixed inset-0 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75 backdrop-blur-sm" aria-hidden="true"></div>
+            
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            
+            <div class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-2xl rounded-2xl glass-effect fade-in">
+                <!-- Header del modal -->
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900">
+                            {{ formKPI.nombre ? 'Editar KPI' : 'Agregar KPI' }}
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-500">
+                            {{ formKPI.nombre ? 'Actualiza los datos del indicador' : 'Define un nuevo indicador de rendimiento' }}
+                        </p>
+                    </div>
+                    <button (click)="cerrarModal()" 
+                            class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Formulario KPI -->
+                <form (ngSubmit)="guardarKPI()" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre del KPI</label>
+                        <input [(ngModel)]="formKPI.nombre" name="nombre" type="text"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200" 
+                               placeholder="Ej: Rentabilidad sobre ventas" required />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Meta</label>
+                        <input [(ngModel)]="formKPI.meta" name="meta" type="number"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200" 
+                               placeholder="Ej: 15" required />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Unidad de medida</label>
+                        <input [(ngModel)]="formKPI.unidad_medida" name="unidad" type="text"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200" 
+                               placeholder="Ej: %, S/, unidades" required />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Frecuencia</label>
+                        <input [(ngModel)]="formKPI.frecuencia" name="frecuencia" type="text"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200" 
+                               placeholder="Ej: mensual, trimestral, anual" required />
+                    </div>
+
+                    <div class="flex gap-3 pt-4">
+                        <button *ngIf="formKPI.nombre" (click)="eliminarKPI()" type="button"
+                                class="flex-1 px-4 py-3 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200">
+                            Eliminar KPI
+                        </button>
+                        <button type="submit" 
+                                class="flex-1 px-4 py-3 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-purple-600 border border-transparent rounded-lg hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-md hover:shadow-lg">
+                            {{ formKPI.nombre ? 'Actualizar KPI' : 'Guardar KPI' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para editar objetivo -->
+    <div *ngIf="modalEditarObjetivo" class="fixed inset-0 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75 backdrop-blur-sm" aria-hidden="true"></div>
+            
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            
+            <div class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-2xl rounded-2xl glass-effect fade-in">
+                <!-- Header del modal -->
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900">Editar Objetivo</h3>
+                        <p class="mt-1 text-sm text-gray-500">Modifica el nombre del objetivo estratégico</p>
+                    </div>
+                    <button (click)="modalEditarObjetivo = false" 
+                            class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Formulario -->
+                <form (ngSubmit)="guardarEdicionObjetivo()" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre del objetivo</label>
+                        <input [(ngModel)]="nuevoNombreObjetivo" name="nombre_objetivo_edit" type="text"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-colors duration-200" 
+                               placeholder="Nuevo nombre del objetivo" required />
+                    </div>
+
+                    <div class="flex gap-3 pt-4">
+                        <button type="button" (click)="modalEditarObjetivo = false" 
+                                class="flex-1 px-4 py-3 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors duration-200">
+                            Cancelar
+                        </button>
+                        <button type="submit" 
+                                class="flex-1 px-4 py-3 text-sm font-medium text-white bg-gradient-to-r from-yellow-500 to-orange-500 border border-transparent rounded-lg hover:from-yellow-600 hover:to-orange-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all duration-200 shadow-md hover:shadow-lg">
+                            Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación de eliminación de objetivo -->
+    <div *ngIf="objetivoAEliminar" class="fixed inset-0 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75 backdrop-blur-sm" aria-hidden="true"></div>
+            
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            
+            <div class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-2xl rounded-2xl fade-in">
+                <div class="flex items-center mb-4">
+                    <div class="flex-shrink-0 w-12 h-12 mx-auto bg-red-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">¿Eliminar objetivo?</h3>
+                    <p class="text-sm text-gray-600 mb-6">
+                        Estás a punto de eliminar el objetivo: <strong class="text-gray-900">{{ objetivoAEliminar.nombre }}</strong>. 
+                        Esta acción no se puede deshacer.
+                    </p>
+                </div>
+
+                <div class="flex gap-3">
+                    <button (click)="cerrarModalEliminarObjetivo()" 
+                            class="flex-1 px-4 py-3 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors duration-200">
+                        Cancelar
+                    </button>
+                    <button (click)="confirmarEliminarObjetivo()" 
+                            class="flex-1 px-4 py-3 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200">
+                        Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
